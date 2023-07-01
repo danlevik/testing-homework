@@ -79,4 +79,23 @@ describe("Таблица с добавленными товарами в кор�
 
     await expect(cart.$(".Cart-OrderPrice")).toHaveText(`$${summary}`);
   });
+
+  it("Корзина очищается после нажатия на кнопку очистки корзины", async function () {
+    await this.browser.url("http://localhost:3000/hw/store/catalog/0");
+    const addToCartButton0 = await this.browser.$(".ProductDetails-AddToCart");
+    await addToCartButton0.click();
+    await addToCartButton0.click();
+
+    await this.browser.url("http://localhost:3000/hw/store/catalog/2");
+
+    const addToCartButton2 = await this.browser.$(".ProductDetails-AddToCart");
+    await addToCartButton2.click();
+
+    await this.browser.url("http://localhost:3000/hw/store/cart");
+
+    const clearButton = await this.browser.$(".Cart-Clear");
+    await clearButton.click();
+
+    await this.browser.assertView("emptyCart", "body");
+  });
 });
