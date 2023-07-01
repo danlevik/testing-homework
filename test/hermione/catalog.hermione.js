@@ -64,16 +64,22 @@ describe("Для каждого товара отображаются все д�
 
   it("Ссылка ведет на корректный товар", async function () {
     await this.browser.url("http://localhost:3000/hw/store/catalog");
-
-    const cards = await this.browser.$$(".ProductItem");
-
-    await cards.forEach(async (element) => {
-      const dataId = await element.getAttribute("data-testid");
-      const linkElement = await element.$(".ProductItem-DetailsLink");
+    const cardsLength = await this.browser.$$(".ProductItem").length;
+    for (let i = 0; i < cardsLength; i++) {
+      let card = await this.browser.$(`[data-testid='${i}'] .ProductItem`);
+      let cardName = await card.$(".ProductItem-Name").getText();
+      let linkElement = await card.$(".ProductItem-DetailsLink");
       await expect(linkElement).toHaveAttribute(
         "href",
-        `/hw/store/catalog/${dataId}`
+        `/hw/store/catalog/${i}`
       );
-    });
+      await linkElement.click();
+
+      let detailsItemName = await this.browser
+        .$(".ProductDetails-Name")
+        .getText();
+      assert.equal(detailsItemName, cardName);
+      await this.browser.url("http://localhost:3000/hw/store/catalog");
+    }
   });
 });
