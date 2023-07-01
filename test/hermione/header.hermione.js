@@ -50,3 +50,50 @@ describe("В шапке отображаются ссылки на страни�
     await this.browser.assertView("correctLinks", "nav");
   });
 });
+
+describe("При изменении размера экрана, шапка адаптируется", async function () {
+  it("Шапка корректно отображается на размере 1920*1080", async function () {
+    await this.browser.url("http://localhost:3000/hw/store");
+    await this.browser.assertView("navLarge", "nav");
+  });
+
+  it("Шапка корректно отображается на размере 460*1080", async function () {
+    await this.browser.setWindowSize(460, 1080);
+    await this.browser.url("http://localhost:3000/hw/store");
+    await this.browser.assertView("navSmall", "nav");
+  });
+
+  it("Открытая шапка корректно отображается на размере 460*1080", async function () {
+    await this.browser.setWindowSize(460, 1080);
+    await this.browser.url("http://localhost:3000/hw/store");
+    const burgerButton = await this.browser.$(".Application-Toggler");
+    await burgerButton.click();
+    await this.browser.pause(1000);
+
+    await this.browser.assertView("navSmallOpenWithFocus", "nav");
+  });
+
+  it("Шапка закрывается при повторном нажатии на бургер", async function () {
+    await this.browser.setWindowSize(460, 1080);
+    await this.browser.url("http://localhost:3000/hw/store");
+    const burgerButton = await this.browser.$(".Application-Toggler");
+    await burgerButton.click();
+    await burgerButton.click();
+    await this.browser.pause(1000);
+
+    await this.browser.assertView("navSmallWithFocus", "nav");
+  });
+
+  it("Шапка закрывается при нажатии на ссылку", async function () {
+    await this.browser.setWindowSize(460, 1080);
+    await this.browser.url("http://localhost:3000/hw/store");
+    const burgerButton = await this.browser.$(".Application-Toggler");
+    await burgerButton.click();
+
+    const navbarLink = await this.browser.$(".Application-Menu .nav-link");
+    await navbarLink.click();
+    await this.browser.pause(1000);
+
+    await this.browser.assertView("navSmall", "nav");
+  });
+});
