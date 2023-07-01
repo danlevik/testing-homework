@@ -42,12 +42,23 @@ describe("Название магазина в шапке должно быть 
   });
 });
 
-// describe("В магазине должны быть все страницы", async function () {});
-
 describe("В шапке отображаются ссылки на страницы магазина, а также ссылка на корзину", async function () {
   it("Все ссылки отображаются", async function () {
     await this.browser.url("http://localhost:3000/hw/store");
     await this.browser.assertView("correctLinks", "nav");
+  });
+
+  it("В шапке отображается количество не повторяющихся товаров в корзине", async function () {
+    await this.browser.url("http://localhost:3000/hw/store/catalog/0");
+    const addToCartButton0 = await this.browser.$(".ProductDetails-AddToCart");
+    await addToCartButton0.click();
+    await addToCartButton0.click();
+
+    await this.browser.url("http://localhost:3000/hw/store/catalog/2");
+    const addToCartButton2 = await this.browser.$(".ProductDetails-AddToCart");
+    await addToCartButton2.click();
+
+    await this.browser.assertView("headerWithTwoItems", "nav");
   });
 });
 
