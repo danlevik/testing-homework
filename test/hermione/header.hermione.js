@@ -68,14 +68,14 @@ describe("При изменении размера экрана, шапка ад
     await this.browser.assertView("navLarge", "nav");
   });
 
-  it("Шапка корректно отображается на размере 460*1080", async function () {
-    await this.browser.setWindowSize(460, 1080);
+  it("Шапка корректно отображается на размере 575*1080", async function () {
+    await this.browser.setWindowSize(575, 1080);
     await this.browser.url("http://localhost:3000/hw/store");
     await this.browser.assertView("navSmall", "nav");
   });
 
-  it("Открытая шапка корректно отображается на размере 460*1080", async function () {
-    await this.browser.setWindowSize(460, 1080);
+  it("Открытая шапка корректно отображается на размере 575*1080", async function () {
+    await this.browser.setWindowSize(575, 1080);
     await this.browser.url("http://localhost:3000/hw/store");
     const burgerButton = await this.browser.$(".Application-Toggler");
     await burgerButton.click();
@@ -85,7 +85,7 @@ describe("При изменении размера экрана, шапка ад
   });
 
   it("Шапка закрывается при повторном нажатии на бургер", async function () {
-    await this.browser.setWindowSize(460, 1080);
+    await this.browser.setWindowSize(575, 1080);
     await this.browser.url("http://localhost:3000/hw/store");
     const burgerButton = await this.browser.$(".Application-Toggler");
     await burgerButton.click();
@@ -96,7 +96,7 @@ describe("При изменении размера экрана, шапка ад
   });
 
   it("Шапка закрывается при нажатии на ссылку", async function () {
-    await this.browser.setWindowSize(460, 1080);
+    await this.browser.setWindowSize(575, 1080);
     await this.browser.url("http://localhost:3000/hw/store");
     const burgerButton = await this.browser.$(".Application-Toggler");
     await burgerButton.click();
